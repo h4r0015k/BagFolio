@@ -4,7 +4,8 @@ import Files.Files;
 import Markets.ExchangeList;
 import Markets.Exchanges.Exchange;
 import Markets.FetchData;
-import org.json.simple.JSONObject;
+import Markets.TotalValue;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
@@ -17,11 +18,12 @@ public class AddNewEntry implements ActionListener {
     private JComboBox exchange ,qoute, base;
     private JTextField amount, bprice;
     private DefaultTableModel tablem;
+    private JLabel totall;
     private JDialog addBag;
     private HashMap<String, HashMap<String,String>>  tabledata;
 
 
-    public AddNewEntry(JComboBox exchange, JComboBox qoute, JComboBox base, JTextField amount, JTextField bprice, DefaultTableModel tablem, JDialog addBag, HashMap<String, HashMap<String,String>>  tabledata
+    public AddNewEntry(JComboBox exchange, JComboBox qoute, JComboBox base, JTextField amount, JTextField bprice, DefaultTableModel tablem, JDialog addBag, HashMap<String, HashMap<String,String>>  tabledata, JLabel totall
     ) {
         this.exchange = exchange;
         this.qoute = qoute;
@@ -31,6 +33,7 @@ public class AddNewEntry implements ActionListener {
         this.tablem = tablem;
         this.addBag = addBag;
         this.tabledata = tabledata;
+        this.totall = totall;
     }
 
 
@@ -55,7 +58,9 @@ public class AddNewEntry implements ActionListener {
         @Override
         public void run() {
             try {
+                Double total = Double.valueOf(totall.getText().replace(" USD",""));
 
+                totall.setText("Adding bag...");
                 String baseCur = base.getSelectedItem().toString();
                 String qouteCur = qoute.getSelectedItem().toString();
                 String ticker = qouteCur + "-" + baseCur;
@@ -93,6 +98,21 @@ public class AddNewEntry implements ActionListener {
                 current.put("amount", amount.getText());
                 current.put("bought", bprice.getText());
                 current.put("pl", pl);
+
+                if(!tabledata.containsKey("total"))
+                    tabledata.put("total", new HashMap<>());
+
+                Double totalValue = 0.0;
+
+                if(!baseCur.contains("USD"))
+                    totalValue = total + ((Double.valueOf(curPrice) * Double.valueOf(amountN)) * TotalValue.getPrice(baseCur));
+                else
+                    totalValue = total + (Double.valueOf(curPrice) * Double.valueOf(amountN));
+
+                String ftotal = String.format("%.2f", totalValue) + " USD";
+
+                tabledata.get("total").put("total", ftotal);
+                totall.setText(ftotal);
 
                 Files.writeDataJson(tabledata);
 

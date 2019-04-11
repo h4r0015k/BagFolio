@@ -14,6 +14,8 @@ public class FetchData {
         try {
             URL link = new URL(url);
             HttpURLConnection con = (HttpURLConnection) link.openConnection();
+            con.addRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64; rv:25.0) Gecko/20100101 Firefox/25.0");
+            con.setRequestMethod("GET");
             con.setConnectTimeout(5000);
             con.connect();
 

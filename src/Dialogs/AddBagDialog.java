@@ -21,14 +21,16 @@ public class AddBagDialog extends JDialog {
     private JDialog abdialog;
     private HashMap<String, ArrayList<String>> pairData = new HashMap<>();
     private HashMap<String, HashMap<String,String>>  tabledata;
+    private JLabel totall;
 
-    public AddBagDialog(JFrame abframe, DefaultTableModel tablem, HashMap<String, HashMap<String,String>>  tabledata
+    public AddBagDialog(JFrame abframe, DefaultTableModel tablem, HashMap<String, HashMap<String,String>>  tabledata, JLabel totall
     ) {
         super(abframe, "New bag");
         super.setSize(new Dimension(400,300));
         super.setResizable(false);
         this.tablem = tablem;
         this.tabledata = tabledata;
+        this.totall = totall;
         addComponents(super.getContentPane());
     }
 
@@ -104,7 +106,7 @@ public class AddBagDialog extends JDialog {
         bpriceLabel.setForeground(Color.white);
 
         OptionButton add = new OptionButton("Add Bag");
-        add.addActionListener(new AddNewEntry(exchangeBox, qoute, base, amount, bprice, tablem, this, tabledata));
+        add.addActionListener(new AddNewEntry(exchangeBox, qoute, base, amount, bprice, tablem, this, tabledata, totall));
 
 
         gbc.anchor = GridBagConstraints.NORTHWEST;

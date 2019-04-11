@@ -31,6 +31,7 @@ public class MainFrame implements Runnable {
         mframe.setTitle("BagFolio");
 
         createComponent(mframe.getContentPane());
+        Files.loadDataFile(tabledata, tablem,total);
 
         mframe.pack();
         mframe.setVisible(true);
@@ -48,7 +49,7 @@ public class MainFrame implements Runnable {
         totalLayout.setAlignment(FlowLayout.RIGHT);
         totalScreen.setLayout(totalLayout);
 
-        total = new JLabel("0.0");
+        total = new JLabel("0.0 USD");
         total.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         total.setForeground(Color.WHITE);
 
@@ -68,10 +69,10 @@ public class MainFrame implements Runnable {
         optionScreen.setLayout(optionLayout);
 
         OptionButton addBag = new OptionButton("+Bag");
-        addBag.addActionListener(new AddBag(getMframe(), tablem, tabledata));
+        addBag.addActionListener(new AddBag(getMframe(), tablem, tabledata, total));
 
         OptionButton refresh = new OptionButton("Refresh");
-        refresh.addActionListener(new RefreshPrice(tablem, tabledata));
+        refresh.addActionListener(new RefreshPrice(tablem, tabledata, total));
 
         optionScreen.add(addBag);
         optionScreen.add(refresh);
@@ -90,8 +91,10 @@ public class MainFrame implements Runnable {
         GridLayout topPanelLayout = new GridLayout(1,2);
         topPanel.setLayout(topPanelLayout);
 
+        JPanel totalPanel = createTotalPanel();
+
         topPanel.add(createOptionPanel());
-        topPanel.add(createTotalPanel());
+        topPanel.add(totalPanel);
 
         return topPanel;
 
@@ -140,7 +143,7 @@ public class MainFrame implements Runnable {
         table.getTableHeader().setReorderingAllowed(false);
 
         tablePanel.add(scrollPane);
-        Files.loadDataFile(tabledata, tablem);
+
         return tablePanel;
     }
 

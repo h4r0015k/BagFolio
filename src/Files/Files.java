@@ -3,6 +3,7 @@ package Files;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 
+import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.io.BufferedReader;
 import java.io.File;
@@ -40,7 +41,7 @@ public class Files {
         } catch (Exception e) {}
     }
 
-    public static void loadDataFile(HashMap<String, HashMap<String,String>> tabledata, DefaultTableModel tablem) {
+    public static void loadDataFile(HashMap<String, HashMap<String,String>> tabledata, DefaultTableModel tablem, JLabel totall) {
 
         String filepath = System.getProperty("user.home") + "/bagfolio/data.json";
         File file = new File(filepath);
@@ -69,8 +70,12 @@ public class Files {
 
                 fr.close();
 
-                for(int i = 1; i <= tabledata.size(); i++) {
-                    HashMap<String,String> mp = tabledata.get(String.valueOf(i));
+                for(String key: tabledata.keySet()) {
+
+                    if(key.equals("total"))
+                        continue;
+
+                    HashMap<String,String> mp = tabledata.get(key);
 
                     String[] tmpdata = new String[6];
                     tmpdata[0] =  mp.get("exchange");
@@ -83,6 +88,7 @@ public class Files {
                     tablem.addRow(tmpdata);
                 }
 
+                totall.setText(tabledata.get("total").get("total"));
                 tablem.fireTableDataChanged();
 
             } else {
