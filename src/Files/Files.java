@@ -32,12 +32,14 @@ public class Files {
 
             String filepath = System.getProperty("user.home") + "/bagfolio/markets/" + exchangeName + ".json";
             File file = new File(filepath);
-            if (file.createNewFile()) {
-                FileWriter fw = new FileWriter(file);
-                fw.write((new JSONObject(list)).toJSONString());
-                fw.flush();
-                fw.close();
-            }
+            if (!file.exists())
+                file.createNewFile();
+
+            FileWriter fw = new FileWriter(file);
+            fw.write((new JSONObject(list)).toJSONString());
+            fw.flush();
+            fw.close();
+
         } catch (Exception e) {}
     }
 

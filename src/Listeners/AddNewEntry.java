@@ -4,6 +4,7 @@ import Files.Files;
 import Markets.ExchangeList;
 import Markets.Exchanges.Exchange;
 import Markets.FetchData;
+import Markets.PairInfo;
 import Markets.TotalValue;
 
 import javax.swing.*;
@@ -76,7 +77,7 @@ public class AddNewEntry implements ActionListener {
                 String curPrice;
 
                 if(data != null)
-                     curPrice = String.format("%.8f",ex.getTicker(data));
+                     curPrice = String.format("%.8f",ex.getTicker(data, new PairInfo(baseCur, qouteCur)));
                 else
                     curPrice = "0";
 
@@ -84,11 +85,11 @@ public class AddNewEntry implements ActionListener {
 
                 String[] tmp = {ex.toString() ,ticker, amountN, curPrice, bpriceN, pl};
 
+                int last = tablem.getRowCount() + 1;
                 tablem.addRow(tmp);
                 tablem.fireTableDataChanged();
 
                 ArrayList<Exchange> exList = new ExchangeList().getExlist();
-                int last = tabledata.size() + 1;
                 tabledata.put(String.valueOf(last), new HashMap<>());
                 HashMap<String,String> current = tabledata.get(String.valueOf(last));
 

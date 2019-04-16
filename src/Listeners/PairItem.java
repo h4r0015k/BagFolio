@@ -19,17 +19,19 @@ public class PairItem implements ItemListener {
     @Override
     public void itemStateChanged(ItemEvent itemEvent) {
         if( itemEvent.getStateChange() == 2) {
-            String selectedPair = ((JComboBox) itemEvent.getSource()).getSelectedItem().toString();
-            base.removeAllItems();
+            try {
+                String selectedPair = ((JComboBox) itemEvent.getSource()).getSelectedItem().toString();
+                base.removeAllItems();
 
-            ArrayList<String> tmp = new ArrayList<>(pairData.get(selectedPair));
-            Collections.sort(tmp);
+                ArrayList<String> tmp = new ArrayList<>(pairData.get(selectedPair));
+                Collections.sort(tmp);
 
-            for (String s : tmp)  {
-                base.addItem(s);
-            }
+                for (String s : tmp) {
+                    base.addItem(s);
+                }
 
-            base.setEnabled(true);
+                base.setEnabled(true);
+            } catch (Exception e) {}
         }
 
 

@@ -5,6 +5,7 @@ import Files.Files;
 import Markets.ExchangeList;
 import Markets.Exchanges.Exchange;
 import Markets.FetchData;
+import Markets.PairInfo;
 import Markets.TotalValue;
 
 import javax.swing.*;
@@ -13,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.SplittableRandom;
 
 public class RefreshPrice implements ActionListener {
 
@@ -61,12 +63,13 @@ public class RefreshPrice implements ActionListener {
                     String ticker = tablem.getValueAt(i,1).toString();
                     String url = exchange.getTickerUrl().replace("$BASE",ticker.split("-")[1]).replace("$QOUTE",ticker.split("-")[0]);
                     String base = ticker.split("-")[1];
+                    String qoute = ticker.split("-")[0];
 
-                    Double price = exchange.getTicker(FetchData.pull(url));
+                    Double price = exchange.getTicker(FetchData.pull(url), new PairInfo(base, qoute));
                     String newPrice;
 
                     if(price != null)
-                         newPrice = String.format("%.08f", exchange.getTicker(FetchData.pull(url)));
+                         newPrice = String.format("%.08f", price);
                     else
                          newPrice = "0";
 

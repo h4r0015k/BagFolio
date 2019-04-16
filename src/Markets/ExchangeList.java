@@ -12,6 +12,8 @@ public class ExchangeList {
         exlist = new ArrayList<>();
         exlist.add(new Bittrex());
         exlist.add(new Binance());
+        exlist.add(new Poloniex());
+
     }
 
     public ArrayList<Exchange> getExlist() {

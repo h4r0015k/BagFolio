@@ -1,5 +1,6 @@
 package Markets.Exchanges;
 
+import Markets.PairInfo;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -73,7 +74,7 @@ public class Binance extends Exchange {
     }
 
     @Override
-    public Double getTicker(String data) {
+    public Double getTicker(String data, PairInfo pairInfo) {
         try {
             JSONObject jsonObject = (JSONObject) (new JSONParser().parse(data));
             return  Double.valueOf(jsonObject.get("price").toString());
