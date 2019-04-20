@@ -14,7 +14,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.SplittableRandom;
 
 public class RefreshPrice implements ActionListener {
 
@@ -41,19 +40,20 @@ public class RefreshPrice implements ActionListener {
         return null;
     }
 
-    @Override
-    public void actionPerformed(ActionEvent actionEvent) {
-
+    public void refresh() {
         new Thread() {
 
             @Override
             public void run() {
-
-                if(tablem.getRowCount() < 1)
-                    return;
-
                 Double total = 0.0;
                 totall.setText("Refreshing...");
+
+                if(tablem.getRowCount() < 1) {
+                    totall.setText("0.0");
+                    tabledata.get("total").put("total", "0.0");
+                    Files.writeDataJson(tabledata);
+                    return;
+                }
 
                 for(int i = 0; i < tablem.getRowCount(); i++) {
 
@@ -69,9 +69,9 @@ public class RefreshPrice implements ActionListener {
                     String newPrice;
 
                     if(price != null)
-                         newPrice = String.format("%.08f", price);
+                        newPrice = String.format("%.08f", price);
                     else
-                         newPrice = "0";
+                        newPrice = "0";
 
 
                     tablem.setValueAt(newPrice, i,3);
@@ -95,7 +95,13 @@ public class RefreshPrice implements ActionListener {
                 totall.setText(ftotal);
                 tabledata.get("total").put("total", ftotal);
                 Files.writeDataJson(tabledata);
-                }
+            }
         }.start();
+    }
+
+
+    @Override
+    public void actionPerformed(ActionEvent actionEvent) {
+        refresh();
     }
 }

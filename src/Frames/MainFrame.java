@@ -3,6 +3,7 @@ package Frames;
 import Buttons.OptionButton;
 import Files.Files;
 import Listeners.AddBag;
+import Listeners.MouseClick;
 import Listeners.RefreshPrice;
 import javax.swing.*;
 import javax.swing.border.MatteBorder;
@@ -17,6 +18,7 @@ public class MainFrame implements Runnable {
     private DefaultTableModel tablem;
     private JLabel total;
     private HashMap<String, HashMap<String,String>> tabledata;
+    private JTable table;
 
     public MainFrame() {
         tabledata = new HashMap<>();
@@ -113,7 +115,7 @@ public class MainFrame implements Runnable {
         tablem = new DefaultTableModel(0, columnNames.length);
         tablem.setColumnIdentifiers(columnNames);
 
-        JTable table = new JTable(tablem);
+        table = new JTable(tablem);
 
         JScrollPane scrollPane = new JScrollPane(table);
         table.setFillsViewportHeight(true);
@@ -157,6 +159,8 @@ public class MainFrame implements Runnable {
 
         JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT,createTopPanel(), tablePanel);
         splitPane.setDividerSize(1);
+
+        table.addMouseListener(new MouseClick(tablem, tabledata, total));
 
         container.add(splitPane, BorderLayout.CENTER);
     }
