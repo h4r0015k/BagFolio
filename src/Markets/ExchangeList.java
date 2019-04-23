@@ -13,6 +13,7 @@ public class ExchangeList {
         exlist.add(new Bittrex());
         exlist.add(new Binance());
         exlist.add(new Poloniex());
+        exlist.add(new Kucoin());
 
     }
 
