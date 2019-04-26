@@ -11,8 +11,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class AddNewEntry implements ActionListener {
 
@@ -59,7 +61,7 @@ public class AddNewEntry implements ActionListener {
         @Override
         public void run() {
             try {
-                Double total = Double.valueOf(totall.getText().replace(" USD",""));
+                Double total = Double.valueOf(totall.getText().replace("$",""));
 
                 totall.setText("Adding bag...");
                 String baseCur = base.getSelectedItem().toString();
@@ -110,7 +112,8 @@ public class AddNewEntry implements ActionListener {
                 else
                     totalValue = total + (Double.valueOf(curPrice) * Double.valueOf(amountN));
 
-                String ftotal = String.format("%.2f", totalValue) + " USD";
+                NumberFormat curFormat = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+                String ftotal = curFormat.format(totalValue);
 
                 tabledata.get("total").put("total", ftotal);
                 totall.setText(ftotal);

@@ -51,7 +51,7 @@ public class MainFrame implements Runnable {
         totalLayout.setAlignment(FlowLayout.RIGHT);
         totalScreen.setLayout(totalLayout);
 
-        total = new JLabel("0.0 USD");
+        total = new JLabel("$0.0");
         total.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 20));
         total.setForeground(Color.WHITE);
 

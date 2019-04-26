@@ -12,8 +12,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 
 public class RefreshPrice implements ActionListener {
 
@@ -89,8 +91,8 @@ public class RefreshPrice implements ActionListener {
                 }
 
 
-
-                String ftotal = String.format("%.2f",total) + " USD";
+                NumberFormat curFormat = NumberFormat.getCurrencyInstance(new Locale("en","US"));
+                String ftotal = curFormat.format(total);
 
                 totall.setText(ftotal);
                 tabledata.get("total").put("total", ftotal);
